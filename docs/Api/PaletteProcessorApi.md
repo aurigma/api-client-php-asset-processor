@@ -4,6 +4,7 @@ All URIs are relative to http://localhost, except if the operation defines anoth
 
 | Method | HTTP request | Description |
 | ------------- | ------------- | ------------- |
+| [**paletteProcessorDuplicatePalette()**](PaletteProcessorApi.md#paletteProcessorDuplicatePalette) | **POST** /api/processor/v1/palettes/{id}/duplicate | Duplicates an existing palette and saves it to storage with specified parameters. |
 | [**paletteProcessorImportPalette()**](PaletteProcessorApi.md#paletteProcessorImportPalette) | **POST** /api/processor/v1/palettes/import | Imports palette from source file and saves it to storage. |
 | [**paletteProcessorImportPaletteFromUrl()**](PaletteProcessorApi.md#paletteProcessorImportPaletteFromUrl) | **POST** /api/processor/v1/palettes/import/from-url | Imports palette from remote source file and saves it to storage. |
 | [**paletteProcessorPreparePreview()**](PaletteProcessorApi.md#paletteProcessorPreparePreview) | **GET** /api/processor/v1/palettes/{id}/preview/{namespace}/{name}/{width}x{height} | Creates preview image for palette taken from storage. |
@@ -11,6 +12,100 @@ All URIs are relative to http://localhost, except if the operation defines anoth
 | [**paletteProcessorReimportPalette()**](PaletteProcessorApi.md#paletteProcessorReimportPalette) | **POST** /api/processor/v1/palettes/{id}/re-import | Re-imports palette from source file and updates palette file and metadata in storage. |
 | [**paletteProcessorUpdate()**](PaletteProcessorApi.md#paletteProcessorUpdate) | **POST** /api/processor/v1/palettes/{id}/update | Updates palette file and metadata in storage. |
 
+
+## `paletteProcessorDuplicatePalette()`
+
+```php
+paletteProcessorDuplicatePalette($id, $tenant_id, $name, $path, $preview_settings_make_preview, $preview_settings_namespace, $preview_settings_name, $preview_settings_width, $preview_settings_height, $preview_settings_format): \Aurigma\AssetProcessor\Model\PaletteDto
+```
+
+Duplicates an existing palette and saves it to storage with specified parameters.
+
+Additionally makes palette preview if requested.
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+// Configure API key authorization: ApiKey
+$config = Aurigma\AssetProcessor\Configuration::getDefaultConfiguration()->setApiKey('X-API-Key', 'YOUR_API_KEY');
+// Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+// $config = Aurigma\AssetProcessor\Configuration::getDefaultConfiguration()->setApiKeyPrefix('X-API-Key', 'Bearer');
+
+// Configure OAuth2 access token for authorization: OAuth2ClientCredentials
+$config = Aurigma\AssetProcessor\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+
+// Configure OAuth2 access token for authorization: OAuth2Code
+$config = Aurigma\AssetProcessor\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+
+// Configure OAuth2 access token for authorization: OAuth2Implicit
+$config = Aurigma\AssetProcessor\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+
+// Configure API key authorization: Bearer
+$config = Aurigma\AssetProcessor\Configuration::getDefaultConfiguration()->setApiKey('Authorization', 'YOUR_API_KEY');
+// Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+// $config = Aurigma\AssetProcessor\Configuration::getDefaultConfiguration()->setApiKeyPrefix('Authorization', 'Bearer');
+
+
+$apiInstance = new Aurigma\AssetProcessor\Api\PaletteProcessorApi(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client(),
+    $config
+);
+$id = 'id_example'; // string | Existing palette identifier.
+$tenant_id = 56; // int | Tenant ID.
+$name = 'name_example'; // string | Palette name.
+$path = 'path_example'; // string | Palette location (folder path).
+$preview_settings_make_preview = True; // bool | Force make preview.
+$preview_settings_namespace = 'preview_settings_namespace_example'; // string | Preview namespace.
+$preview_settings_name = 'preview_settings_name_example'; // string | Preview name.
+$preview_settings_width = 56; // int | Preview image width.
+$preview_settings_height = 56; // int | Preview image heigth.
+$preview_settings_format = new \Aurigma\AssetProcessor\Model\PalettePreviewFormat(); // \Aurigma\AssetProcessor\Model\PalettePreviewFormat | Preview image format.
+
+try {
+    $result = $apiInstance->paletteProcessorDuplicatePalette($id, $tenant_id, $name, $path, $preview_settings_make_preview, $preview_settings_namespace, $preview_settings_name, $preview_settings_width, $preview_settings_height, $preview_settings_format);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling PaletteProcessorApi->paletteProcessorDuplicatePalette: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **id** | **string**| Existing palette identifier. | |
+| **tenant_id** | **int**| Tenant ID. | [optional] |
+| **name** | **string**| Palette name. | [optional] |
+| **path** | **string**| Palette location (folder path). | [optional] |
+| **preview_settings_make_preview** | **bool**| Force make preview. | [optional] |
+| **preview_settings_namespace** | **string**| Preview namespace. | [optional] |
+| **preview_settings_name** | **string**| Preview name. | [optional] |
+| **preview_settings_width** | **int**| Preview image width. | [optional] |
+| **preview_settings_height** | **int**| Preview image heigth. | [optional] |
+| **preview_settings_format** | [**\Aurigma\AssetProcessor\Model\PalettePreviewFormat**](../Model/PalettePreviewFormat.md)| Preview image format. | [optional] |
+
+### Return type
+
+[**\Aurigma\AssetProcessor\Model\PaletteDto**](../Model/PaletteDto.md)
+
+### Authorization
+
+[ApiKey](../../README.md#ApiKey), [OAuth2ClientCredentials](../../README.md#OAuth2ClientCredentials), [OAuth2Code](../../README.md#OAuth2Code), [OAuth2Implicit](../../README.md#OAuth2Implicit), [Bearer](../../README.md#Bearer)
+
+### HTTP request headers
+
+- **Content-Type**: `multipart/form-data`
+- **Accept**: `application/json`
+
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
+[[Back to README]](../../README.md)
 
 ## `paletteProcessorImportPalette()`
 

@@ -71,6 +71,9 @@ class PaletteProcessorApi
 
     /** @var string[] $contentTypes **/
     public const contentTypes = [
+        'paletteProcessorDuplicatePalette' => [
+            'multipart/form-data',
+        ],
         'paletteProcessorImportPalette' => [
             'multipart/form-data',
         ],
@@ -135,6 +138,503 @@ class PaletteProcessorApi
     public function getConfig()
     {
         return $this->config;
+    }
+
+    /**
+     * Operation paletteProcessorDuplicatePalette
+     *
+     * Duplicates an existing palette and saves it to storage with specified parameters.
+     *
+     * @param  string $id Existing palette identifier. (required)
+     * @param  int $tenant_id Tenant ID. (optional)
+     * @param  string $name Palette name. (optional)
+     * @param  string $path Palette location (folder path). (optional)
+     * @param  bool $preview_settings_make_preview Force make preview. (optional)
+     * @param  string $preview_settings_namespace Preview namespace. (optional)
+     * @param  string $preview_settings_name Preview name. (optional)
+     * @param  int $preview_settings_width Preview image width. (optional)
+     * @param  int $preview_settings_height Preview image heigth. (optional)
+     * @param  \Aurigma\AssetProcessor\Model\PalettePreviewFormat $preview_settings_format Preview image format. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['paletteProcessorDuplicatePalette'] to see the possible values for this operation
+     *
+     * @throws \Aurigma\AssetProcessor\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \InvalidArgumentException
+     * @return \Aurigma\AssetProcessor\Model\PaletteDto|\Aurigma\AssetProcessor\Model\ProblemDetails|\Aurigma\AssetProcessor\Model\PaletteImportConflictDto
+     */
+    public function paletteProcessorDuplicatePalette($id, $tenant_id = null, $name = null, $path = null, $preview_settings_make_preview = null, $preview_settings_namespace = null, $preview_settings_name = null, $preview_settings_width = null, $preview_settings_height = null, $preview_settings_format = null, string $contentType = self::contentTypes['paletteProcessorDuplicatePalette'][0])
+    {
+        list($response) = $this->paletteProcessorDuplicatePaletteWithHttpInfo($id, $tenant_id, $name, $path, $preview_settings_make_preview, $preview_settings_namespace, $preview_settings_name, $preview_settings_width, $preview_settings_height, $preview_settings_format, $contentType);
+        return $response;
+    }
+
+    /**
+     * Operation paletteProcessorDuplicatePaletteWithHttpInfo
+     *
+     * Duplicates an existing palette and saves it to storage with specified parameters.
+     *
+     * @param  string $id Existing palette identifier. (required)
+     * @param  int $tenant_id Tenant ID. (optional)
+     * @param  string $name Palette name. (optional)
+     * @param  string $path Palette location (folder path). (optional)
+     * @param  bool $preview_settings_make_preview Force make preview. (optional)
+     * @param  string $preview_settings_namespace Preview namespace. (optional)
+     * @param  string $preview_settings_name Preview name. (optional)
+     * @param  int $preview_settings_width Preview image width. (optional)
+     * @param  int $preview_settings_height Preview image heigth. (optional)
+     * @param  \Aurigma\AssetProcessor\Model\PalettePreviewFormat $preview_settings_format Preview image format. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['paletteProcessorDuplicatePalette'] to see the possible values for this operation
+     *
+     * @throws \Aurigma\AssetProcessor\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \InvalidArgumentException
+     * @return array of \Aurigma\AssetProcessor\Model\PaletteDto|\Aurigma\AssetProcessor\Model\ProblemDetails|\Aurigma\AssetProcessor\Model\PaletteImportConflictDto, HTTP status code, HTTP response headers (array of strings)
+     */
+    public function paletteProcessorDuplicatePaletteWithHttpInfo($id, $tenant_id = null, $name = null, $path = null, $preview_settings_make_preview = null, $preview_settings_namespace = null, $preview_settings_name = null, $preview_settings_width = null, $preview_settings_height = null, $preview_settings_format = null, string $contentType = self::contentTypes['paletteProcessorDuplicatePalette'][0])
+    {
+        $request = $this->paletteProcessorDuplicatePaletteRequest($id, $tenant_id, $name, $path, $preview_settings_make_preview, $preview_settings_namespace, $preview_settings_name, $preview_settings_width, $preview_settings_height, $preview_settings_format, $contentType);
+
+        try {
+            $options = $this->createHttpClientOption();
+            try {
+                $response = $this->client->send($request, $options);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    (int) $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null,
+                    $e->getResponse() ? (string) $e->getResponse()->getBody() : null
+                );
+            } catch (ConnectException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    (int) $e->getCode(),
+                    null,
+                    null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $statusCode,
+                        (string) $request->getUri()
+                    ),
+                    $statusCode,
+                    $response->getHeaders(),
+                    (string) $response->getBody()
+                );
+            }
+
+            switch($statusCode) {
+                case 201:
+                    if ('\Aurigma\AssetProcessor\Model\PaletteDto' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\Aurigma\AssetProcessor\Model\PaletteDto' !== 'string') {
+                            try {
+                                $content = json_decode($content, false, 512, JSON_THROW_ON_ERROR);
+                            } catch (\JsonException $exception) {
+                                throw new ApiException(
+                                    sprintf(
+                                        'Error JSON decoding server response (%s)',
+                                        $request->getUri()
+                                    ),
+                                    $statusCode,
+                                    $response->getHeaders(),
+                                    $content
+                                );
+                            }
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\Aurigma\AssetProcessor\Model\PaletteDto', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 400:
+                    if ('\Aurigma\AssetProcessor\Model\ProblemDetails' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\Aurigma\AssetProcessor\Model\ProblemDetails' !== 'string') {
+                            try {
+                                $content = json_decode($content, false, 512, JSON_THROW_ON_ERROR);
+                            } catch (\JsonException $exception) {
+                                throw new ApiException(
+                                    sprintf(
+                                        'Error JSON decoding server response (%s)',
+                                        $request->getUri()
+                                    ),
+                                    $statusCode,
+                                    $response->getHeaders(),
+                                    $content
+                                );
+                            }
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\Aurigma\AssetProcessor\Model\ProblemDetails', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 409:
+                    if ('\Aurigma\AssetProcessor\Model\PaletteImportConflictDto' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\Aurigma\AssetProcessor\Model\PaletteImportConflictDto' !== 'string') {
+                            try {
+                                $content = json_decode($content, false, 512, JSON_THROW_ON_ERROR);
+                            } catch (\JsonException $exception) {
+                                throw new ApiException(
+                                    sprintf(
+                                        'Error JSON decoding server response (%s)',
+                                        $request->getUri()
+                                    ),
+                                    $statusCode,
+                                    $response->getHeaders(),
+                                    $content
+                                );
+                            }
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\Aurigma\AssetProcessor\Model\PaletteImportConflictDto', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+            }
+
+            $returnType = '\Aurigma\AssetProcessor\Model\PaletteDto';
+            if ($returnType === '\SplFileObject') {
+                $content = $response->getBody(); //stream goes to serializer
+            } else {
+                $content = (string) $response->getBody();
+                if ($returnType !== 'string') {
+                    try {
+                        $content = json_decode($content, false, 512, JSON_THROW_ON_ERROR);
+                    } catch (\JsonException $exception) {
+                        throw new ApiException(
+                            sprintf(
+                                'Error JSON decoding server response (%s)',
+                                $request->getUri()
+                            ),
+                            $statusCode,
+                            $response->getHeaders(),
+                            $content
+                        );
+                    }
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 201:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\Aurigma\AssetProcessor\Model\PaletteDto',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 400:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\Aurigma\AssetProcessor\Model\ProblemDetails',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 409:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\Aurigma\AssetProcessor\Model\PaletteImportConflictDto',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation paletteProcessorDuplicatePaletteAsync
+     *
+     * Duplicates an existing palette and saves it to storage with specified parameters.
+     *
+     * @param  string $id Existing palette identifier. (required)
+     * @param  int $tenant_id Tenant ID. (optional)
+     * @param  string $name Palette name. (optional)
+     * @param  string $path Palette location (folder path). (optional)
+     * @param  bool $preview_settings_make_preview Force make preview. (optional)
+     * @param  string $preview_settings_namespace Preview namespace. (optional)
+     * @param  string $preview_settings_name Preview name. (optional)
+     * @param  int $preview_settings_width Preview image width. (optional)
+     * @param  int $preview_settings_height Preview image heigth. (optional)
+     * @param  \Aurigma\AssetProcessor\Model\PalettePreviewFormat $preview_settings_format Preview image format. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['paletteProcessorDuplicatePalette'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function paletteProcessorDuplicatePaletteAsync($id, $tenant_id = null, $name = null, $path = null, $preview_settings_make_preview = null, $preview_settings_namespace = null, $preview_settings_name = null, $preview_settings_width = null, $preview_settings_height = null, $preview_settings_format = null, string $contentType = self::contentTypes['paletteProcessorDuplicatePalette'][0])
+    {
+        return $this->paletteProcessorDuplicatePaletteAsyncWithHttpInfo($id, $tenant_id, $name, $path, $preview_settings_make_preview, $preview_settings_namespace, $preview_settings_name, $preview_settings_width, $preview_settings_height, $preview_settings_format, $contentType)
+            ->then(
+                function ($response) {
+                    return $response[0];
+                }
+            );
+    }
+
+    /**
+     * Operation paletteProcessorDuplicatePaletteAsyncWithHttpInfo
+     *
+     * Duplicates an existing palette and saves it to storage with specified parameters.
+     *
+     * @param  string $id Existing palette identifier. (required)
+     * @param  int $tenant_id Tenant ID. (optional)
+     * @param  string $name Palette name. (optional)
+     * @param  string $path Palette location (folder path). (optional)
+     * @param  bool $preview_settings_make_preview Force make preview. (optional)
+     * @param  string $preview_settings_namespace Preview namespace. (optional)
+     * @param  string $preview_settings_name Preview name. (optional)
+     * @param  int $preview_settings_width Preview image width. (optional)
+     * @param  int $preview_settings_height Preview image heigth. (optional)
+     * @param  \Aurigma\AssetProcessor\Model\PalettePreviewFormat $preview_settings_format Preview image format. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['paletteProcessorDuplicatePalette'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function paletteProcessorDuplicatePaletteAsyncWithHttpInfo($id, $tenant_id = null, $name = null, $path = null, $preview_settings_make_preview = null, $preview_settings_namespace = null, $preview_settings_name = null, $preview_settings_width = null, $preview_settings_height = null, $preview_settings_format = null, string $contentType = self::contentTypes['paletteProcessorDuplicatePalette'][0])
+    {
+        $returnType = '\Aurigma\AssetProcessor\Model\PaletteDto';
+        $request = $this->paletteProcessorDuplicatePaletteRequest($id, $tenant_id, $name, $path, $preview_settings_make_preview, $preview_settings_namespace, $preview_settings_name, $preview_settings_width, $preview_settings_height, $preview_settings_format, $contentType);
+
+        return $this->client
+            ->sendAsync($request, $this->createHttpClientOption())
+            ->then(
+                function ($response) use ($returnType) {
+                    if ($returnType === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ($returnType !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, $returnType, []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                },
+                function ($exception) {
+                    $response = $exception->getResponse();
+                    $statusCode = $response->getStatusCode();
+                    throw new ApiException(
+                        sprintf(
+                            '[%d] Error connecting to the API (%s)',
+                            $statusCode,
+                            $exception->getRequest()->getUri()
+                        ),
+                        $statusCode,
+                        $response->getHeaders(),
+                        (string) $response->getBody()
+                    );
+                }
+            );
+    }
+
+    /**
+     * Create request for operation 'paletteProcessorDuplicatePalette'
+     *
+     * @param  string $id Existing palette identifier. (required)
+     * @param  int $tenant_id Tenant ID. (optional)
+     * @param  string $name Palette name. (optional)
+     * @param  string $path Palette location (folder path). (optional)
+     * @param  bool $preview_settings_make_preview Force make preview. (optional)
+     * @param  string $preview_settings_namespace Preview namespace. (optional)
+     * @param  string $preview_settings_name Preview name. (optional)
+     * @param  int $preview_settings_width Preview image width. (optional)
+     * @param  int $preview_settings_height Preview image heigth. (optional)
+     * @param  \Aurigma\AssetProcessor\Model\PalettePreviewFormat $preview_settings_format Preview image format. (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['paletteProcessorDuplicatePalette'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    public function paletteProcessorDuplicatePaletteRequest($id, $tenant_id = null, $name = null, $path = null, $preview_settings_make_preview = null, $preview_settings_namespace = null, $preview_settings_name = null, $preview_settings_width = null, $preview_settings_height = null, $preview_settings_format = null, string $contentType = self::contentTypes['paletteProcessorDuplicatePalette'][0])
+    {
+
+        // verify the required parameter 'id' is set
+        if ($id === null || (is_array($id) && count($id) === 0)) {
+            throw new \InvalidArgumentException(
+                'Missing the required parameter $id when calling paletteProcessorDuplicatePalette'
+            );
+        }
+
+
+        if ($name !== null && !preg_match("/[^\/:*?\"<>|]*/", $name)) {
+            throw new \InvalidArgumentException("invalid value for \"name\" when calling PaletteProcessorApi.paletteProcessorDuplicatePalette, must conform to the pattern /[^\/:*?\"<>|]*/.");
+        }
+        
+
+
+
+
+
+
+
+
+        $resourcePath = '/api/processor/v1/palettes/{id}/duplicate';
+        $formParams = [];
+        $queryParams = [];
+        $headerParams = [];
+        $httpBody = '';
+        $multipart = false;
+
+        // query params
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $tenant_id,
+            'tenantId', // param base name
+            'integer', // openApiType
+            'form', // style
+            true, // explode
+            false // required
+        ) ?? []);
+
+
+        // path params
+        if ($id !== null) {
+            $resourcePath = str_replace(
+                '{' . 'id' . '}',
+                ObjectSerializer::toPathValue($id),
+                $resourcePath
+            );
+        }
+
+        // form params
+        if ($name !== null) {
+            $formParams['name'] = ObjectSerializer::toFormValue($name);
+        }
+        // form params
+        if ($path !== null) {
+            $formParams['path'] = ObjectSerializer::toFormValue($path);
+        }
+        // form params
+        if ($preview_settings_make_preview !== null) {
+            $formParams['previewSettings.makePreview'] = ObjectSerializer::toFormValue($preview_settings_make_preview);
+        }
+        // form params
+        if ($preview_settings_namespace !== null) {
+            $formParams['previewSettings.namespace'] = ObjectSerializer::toFormValue($preview_settings_namespace);
+        }
+        // form params
+        if ($preview_settings_name !== null) {
+            $formParams['previewSettings.name'] = ObjectSerializer::toFormValue($preview_settings_name);
+        }
+        // form params
+        if ($preview_settings_width !== null) {
+            $formParams['previewSettings.width'] = ObjectSerializer::toFormValue($preview_settings_width);
+        }
+        // form params
+        if ($preview_settings_height !== null) {
+            $formParams['previewSettings.height'] = ObjectSerializer::toFormValue($preview_settings_height);
+        }
+        // form params
+        if ($preview_settings_format !== null) {
+            $formParams['previewSettings.format'] = ObjectSerializer::toFormValue($preview_settings_format);
+        }
+
+        $headers = $this->headerSelector->selectHeaders(
+            ['application/json', ],
+            $contentType,
+            $multipart
+        );
+
+        // for model (json/xml)
+        if (count($formParams) > 0) {
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
+                    foreach ($formParamValueItems as $formParamValueItem) {
+                        $multipartContents[] = [
+                            'name' => $formParamName,
+                            'contents' => $formParamValueItem
+                        ];
+                    }
+                }
+                // for HTTP post (form)
+                $httpBody = new MultipartStream($multipartContents);
+
+            } elseif (stripos($headers['Content-Type'], 'application/json') !== false) {
+                # if Content-Type contains "application/json", json_encode the form parameters
+                $httpBody = \GuzzleHttp\Utils::jsonEncode($formParams);
+            } else {
+                // for HTTP post (form)
+                $httpBody = ObjectSerializer::buildQuery($formParams);
+            }
+        }
+
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('X-API-Key');
+        if ($apiKey !== null) {
+            $headers['X-API-Key'] = $apiKey;
+        }
+        // this endpoint requires OAuth (access token)
+        if (!empty($this->config->getAccessToken())) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+        // this endpoint requires OAuth (access token)
+        if (!empty($this->config->getAccessToken())) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+        // this endpoint requires OAuth (access token)
+        if (!empty($this->config->getAccessToken())) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('Authorization');
+        if ($apiKey !== null) {
+            $headers['Authorization'] = $apiKey;
+        }
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        $operationHost = $this->config->getHost();
+        $query = ObjectSerializer::buildQuery($queryParams);
+        return new Request(
+            'POST',
+            $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
+            $headers,
+            $httpBody
+        );
     }
 
     /**

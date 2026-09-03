@@ -59,6 +59,7 @@ class DesignUpdateConflictDto implements ModelInterface, ArrayAccess, \JsonSeria
     protected static $openAPITypes = [
         'missing_fonts_conflict' => '\Aurigma\AssetProcessor\Model\MissingFontsConflictDto',
         'missing_images_conflict' => '\Aurigma\AssetProcessor\Model\MissingImagesConflictDto',
+        'missing_color_profiles_conflict' => '\Aurigma\AssetProcessor\Model\MissingColorProfilesConflictDto',
         'missing_palettes_conflict' => '\Aurigma\AssetProcessor\Model\MissingPalettesConflictDto',
         'identification_conflict' => '\Aurigma\AssetProcessor\Model\DesignCreateConflictDtoIdentificationConflict',
         'description' => 'string',
@@ -75,6 +76,7 @@ class DesignUpdateConflictDto implements ModelInterface, ArrayAccess, \JsonSeria
     protected static $openAPIFormats = [
         'missing_fonts_conflict' => null,
         'missing_images_conflict' => null,
+        'missing_color_profiles_conflict' => null,
         'missing_palettes_conflict' => null,
         'identification_conflict' => null,
         'description' => null,
@@ -89,6 +91,7 @@ class DesignUpdateConflictDto implements ModelInterface, ArrayAccess, \JsonSeria
     protected static array $openAPINullables = [
         'missing_fonts_conflict' => true,
         'missing_images_conflict' => true,
+        'missing_color_profiles_conflict' => true,
         'missing_palettes_conflict' => true,
         'identification_conflict' => true,
         'description' => true,
@@ -183,6 +186,7 @@ class DesignUpdateConflictDto implements ModelInterface, ArrayAccess, \JsonSeria
     protected static $attributeMap = [
         'missing_fonts_conflict' => 'missingFontsConflict',
         'missing_images_conflict' => 'missingImagesConflict',
+        'missing_color_profiles_conflict' => 'missingColorProfilesConflict',
         'missing_palettes_conflict' => 'missingPalettesConflict',
         'identification_conflict' => 'identificationConflict',
         'description' => 'description',
@@ -197,6 +201,7 @@ class DesignUpdateConflictDto implements ModelInterface, ArrayAccess, \JsonSeria
     protected static $setters = [
         'missing_fonts_conflict' => 'setMissingFontsConflict',
         'missing_images_conflict' => 'setMissingImagesConflict',
+        'missing_color_profiles_conflict' => 'setMissingColorProfilesConflict',
         'missing_palettes_conflict' => 'setMissingPalettesConflict',
         'identification_conflict' => 'setIdentificationConflict',
         'description' => 'setDescription',
@@ -211,6 +216,7 @@ class DesignUpdateConflictDto implements ModelInterface, ArrayAccess, \JsonSeria
     protected static $getters = [
         'missing_fonts_conflict' => 'getMissingFontsConflict',
         'missing_images_conflict' => 'getMissingImagesConflict',
+        'missing_color_profiles_conflict' => 'getMissingColorProfilesConflict',
         'missing_palettes_conflict' => 'getMissingPalettesConflict',
         'identification_conflict' => 'getIdentificationConflict',
         'description' => 'getDescription',
@@ -276,6 +282,7 @@ class DesignUpdateConflictDto implements ModelInterface, ArrayAccess, \JsonSeria
     {
         $this->setIfExists('missing_fonts_conflict', $data ?? [], null);
         $this->setIfExists('missing_images_conflict', $data ?? [], null);
+        $this->setIfExists('missing_color_profiles_conflict', $data ?? [], null);
         $this->setIfExists('missing_palettes_conflict', $data ?? [], null);
         $this->setIfExists('identification_conflict', $data ?? [], null);
         $this->setIfExists('description', $data ?? [], null);
@@ -388,6 +395,40 @@ class DesignUpdateConflictDto implements ModelInterface, ArrayAccess, \JsonSeria
             }
         }
         $this->container['missing_images_conflict'] = $missing_images_conflict;
+
+        return $this;
+    }
+
+    /**
+     * Gets missing_color_profiles_conflict
+     *
+     * @return \Aurigma\AssetProcessor\Model\MissingColorProfilesConflictDto|null
+     */
+    public function getMissingColorProfilesConflict()
+    {
+        return $this->container['missing_color_profiles_conflict'];
+    }
+
+    /**
+     * Sets missing_color_profiles_conflict
+     *
+     * @param \Aurigma\AssetProcessor\Model\MissingColorProfilesConflictDto|null $missing_color_profiles_conflict missing_color_profiles_conflict
+     *
+     * @return self
+     */
+    public function setMissingColorProfilesConflict($missing_color_profiles_conflict)
+    {
+        if (is_null($missing_color_profiles_conflict)) {
+            array_push($this->openAPINullablesSetToNull, 'missing_color_profiles_conflict');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('missing_color_profiles_conflict', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['missing_color_profiles_conflict'] = $missing_color_profiles_conflict;
 
         return $this;
     }

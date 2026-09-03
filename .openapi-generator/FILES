@@ -126,6 +126,8 @@ docs/Model/ImportPaletteFromUrlModel.md
 docs/Model/ImportPaletteFromUrlModelPreviewSettings.md
 docs/Model/ImportPaletteType.md
 docs/Model/ImportResourceFromUrlModel.md
+docs/Model/MissingColorProfileInfoDto.md
+docs/Model/MissingColorProfilesConflictDto.md
 docs/Model/MissingFontInfoDto.md
 docs/Model/MissingFontsConflictDto.md
 docs/Model/MissingImageInfoDto.md
@@ -296,6 +298,8 @@ lib/Model/ImportPaletteFromUrlModel.php
 lib/Model/ImportPaletteFromUrlModelPreviewSettings.php
 lib/Model/ImportPaletteType.php
 lib/Model/ImportResourceFromUrlModel.php
+lib/Model/MissingColorProfileInfoDto.php
+lib/Model/MissingColorProfilesConflictDto.php
 lib/Model/MissingFontInfoDto.php
 lib/Model/MissingFontsConflictDto.php
 lib/Model/MissingImageInfoDto.php
